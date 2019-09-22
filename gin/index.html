@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Streaming</title>
+
+    <!-- strobe -->
+    <script type="text/javascript" src="strobe/lib/swfobject.js"></script>
+    <script type="text/javascript">
+        var parameters = {
+            //src: "rtmp://58.200.131.2:1935/livetv/hunantv",
+	    	src: "rtmp://192.168.0.107:1935/live/movie",
+            autoPlay: false,
+            controlBarAutoHide: false,
+            playButtonOverlay: true,
+            showVideoInfoOverlayOnStartUp: true,
+            optimizeBuffering : false,
+            initialBufferTime : 0.1,
+            expandedBufferTime : 0.1,
+            minContinuousPlayback : 0.1,
+            poster: "strobe/m.jpg"
+        };
+        swfobject.embedSWF(
+            "strobe/StrobeMediaPlayback.swf"
+            , "StrobeMediaPlayback"
+            , 1024
+            , 768
+            , "10.1.0"
+            , "strobe/expressInstall.swf"
+            , parameters
+            , {
+                allowFullScreen: "true"
+            }
+            , {
+                name: "StrobeMediaPlayback"
+            }
+        );
+    </script>
+
+</head>
+<body>
+    <div id="StrobeMediaPlayback"></div>
+</body>
+</html>
