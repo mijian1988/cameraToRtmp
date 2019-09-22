@@ -1,0 +1,21 @@
+1.start rtmp sertver:
+	cd livego
+	./livego
+2.start web server:
+	cd gin/
+	./gin
+3.push/pull stream:
+	push stream to rtmp server:
+		a.ffmoeg
+		ffmpeg -re -i blackMan.mkv -c copy -f flv rtmp://192.168.0.107:1935/live/movie
+		b.python&cv2
+		sudo python3 cameraToRtmp.py
+		c.golang
+		go run cameraToRtmpByGolang.go
+	pull stream from rtmp server or /dev/video0:
+		ffplay rtmp://192.168.0.107:1935/live/movie
+		ffplay -f video4linux2 -framerate 30 -video_size hd720 /dev/video0
+	note:google 新版不能打开flash，执行flash.reg进行注册表修改修复！
+		
+4.基于python+ffmpeg的视频并发直播压力测试
+	numTest.py
