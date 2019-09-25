@@ -8,7 +8,6 @@ import (
 	"os/exec"
 	"os/signal"
 	"strings"
-	//"syscall"
 )
 
 func main() {
@@ -16,8 +15,8 @@ func main() {
 	signal.Ignore()
 
 	// set to use a video capture device 0
-	//deviceID := 0
-	deviceID := "rtsp://192.168.0.10/live/live0"
+	deviceID := 0
+	//deviceID := "rtsp://192.168.0.30/live/live0"
 
 	// open webcam
 	webcam, err := gocv.OpenVideoCapture(deviceID)
@@ -38,12 +37,20 @@ func main() {
 	defer img.Close()
 
 	//for ffmpeg push to rtmp server
-	cmdargs := "ffmpeg -y -an -f rawvideo" +
-		" -vcodec rawvideo -pix_fmt bgr24" +
-		" -s 1280x720 -r 25 -i - -c:v libx264" +
-		" -pix_fmt yuv420p -preset ultrafast -f flv" +
-		" rtmp://192.168.0.30:1935/live/movie"
-	list := strings.Split(cmdargs, " ")
+	width := int(webcam.Get(gocv.VideoCaptureFrameWidth))
+	height := int(webcam.Get(gocv.VideoCaptureFrameHeight))
+	fps := int(webcam.Get(gocv.VideoCaptureFPS))
+
+	cmdArgs :=fmt.Sprintf("%s %s %s %d %s %s",
+		"ffmpeg -y -an -f rawvideo -vcodec rawvideo -pix_fmt bgr24 -s",
+		fmt.Sprintf("%dx%d", width, height),
+		"-r",
+		fps,
+		"-i - -c:v libx264 -pix_fmt yuv420p -preset ultrafast -f flv",
+		"rtmp://192.168.0.30:1935/live/movie",
+		)
+	fmt.Printf("cmdargs:%s\n",cmdArgs)
+	list := strings.Split(cmdArgs, " ")
 	cmd := exec.Command(list[0], list[1:]...)
 	cmdIn, err := cmd.StdinPipe()
 	if err != nil {
