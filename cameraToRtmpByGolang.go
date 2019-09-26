@@ -70,20 +70,16 @@ func main() {
 		if img.Empty() {
 			continue
 		}
-		fmt.Println("read frame ok")
 
 		// show the image in the window, and wait 1 millisecond
 		window.IMShow(img)
 		window.WaitKey(1)
 
 		//push to rtmp server
-		cnt,err :=cmdIn.Write([]byte(img.ToBytes()))
-		//cnt,err :=cmdIn.Write(img.ToBytes())
+		_,err :=cmdIn.Write([]byte(img.ToBytes()))
 		if err !=nil {
 			fmt.Printf("%v",err)
 			os.Exit(0)
-		}else{
-			fmt.Printf("send cnt=%d\n",cnt)
 		}
 	}
 }
