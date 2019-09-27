@@ -15,8 +15,8 @@ func main() {
 	signal.Ignore()
 
 	// set to use a video capture device 0
-	deviceID := 0
-	//deviceID := "rtsp://192.168.0.30/live/live0"
+	//deviceID := 0
+	deviceID := "rtsp://admin:1234abcd@192.168.0.100/"
 
 	// open webcam
 	webcam, err := gocv.OpenVideoCapture(deviceID)
@@ -47,7 +47,7 @@ func main() {
 		"-r",
 		fps,
 		"-i - -c:v libx264 -pix_fmt yuv420p -preset ultrafast -f flv",
-		"rtmp://192.168.0.30:1935/live/movie",
+		"rtmp://192.168.0.173:1935/live/movie",
 		)
 	fmt.Printf("cmdargs:%s\n",cmdArgs)
 	list := strings.Split(cmdArgs, " ")
